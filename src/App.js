@@ -6,6 +6,8 @@ import Table from "./components/table";
 import Loader from "./components/loader";
 import "./assets/main.css";
 import "./assets/style.css";
+import ReactGA from "react-ga";
+// import auth from "./auth.ts";
 
 function App() {
 	// global states
@@ -14,6 +16,15 @@ function App() {
 	const [nigeria, setNigeria] = useState([]);
 	const [user, setUser] = useState("");
 	const [searchData, setSearchData] = useState([]);
+
+	const trackingId = "UA-163507114-1"; // Replace with your Google Analytics tracking ID
+	ReactGA.initialize(trackingId);
+	// ReactGA.set({
+	// 	userId: auth.currentUserId(),
+	// 	// any data that is relevant to the user session
+	// 	// that you would like to track with google analytics
+	// });
+	ReactGA.pageview("/");
 
 	// api end points
 	const urlWorld = "https://api.covid19api.com/summary";
