@@ -7,7 +7,7 @@ import Loader from "./components/loader";
 import "./assets/main.css";
 import "./assets/style.css";
 import ReactGA from "react-ga";
-// import auth from "./auth.ts";
+import * as Api from "./api/getApi";
 
 function App() {
 	// global states
@@ -19,34 +19,8 @@ function App() {
 
 	const trackingId = "UA-163507114-1"; // Replace with your Google Analytics tracking ID
 	ReactGA.initialize(trackingId);
-	// ReactGA.set({
-	// 	userId: auth.currentUserId(),
-	// 	// any data that is relevant to the user session
-	// 	// that you would like to track with google analytics
-	// });
+
 	ReactGA.pageview("/index.html");
-
-	// api end points
-	const urlWorld = "https://api.covid19api.com/summary";
-	const urlNigeria =
-		"https://api.covid19api.com/live/country/nigeria/status/confirmed22";
-
-	// requesting api data
-	async function data() {
-		const res = await fetch(urlWorld);
-		res
-			.json()
-			.then((data) => {
-				setTable(data.Countries);
-				setGlobal(data.Global);
-			})
-			.catch((error) => console.log(error));
-		const res2 = await fetch(urlNigeria);
-		res2
-			.json()
-			.then((data) => setNigeria(data))
-			.catch((error) => console.log(error));
-	}
 
 	//use effects(side effect such as change in state and invoking called data)
 
@@ -61,7 +35,14 @@ function App() {
 	}, [table, user]);
 
 	useEffect(() => {
-		data();
+		Api.getGlobal().then((res) => {
+			setTable(res.Countries);
+			setGlobal(res.Global);
+		});
+	}, []);
+
+	useEffect(() => {
+		Api.getLocal().then((res) => setNigeria(res));
 	}, []);
 
 	const isLoading = table.length === 0 && nigeria.length === 0;
@@ -121,7 +102,8 @@ function App() {
 							</div>
 							<p className="font-bold text-center text-lg m-2 lg:m-0">
 								built with{" "}
-								<i class="fas fa-heart fa-1x" style={{ color: "red" }}></i> by{" "}
+								<i className="fas fa-heart fa-1x" style={{ color: "red" }}></i>{" "}
+								by{" "}
 								<a
 									href="http://twitter.com/UncleJAA"
 									target="_blank"
