@@ -7,13 +7,13 @@ const TableRow = ({ country, confirm, deaths, recovered }) => {
 				{country}
 			</td>
 			<td className="text-xs text-center font-bold p-2 text-blue-700">
-				{confirm}
+				{Number(confirm).toLocaleString()}
 			</td>
 			<td className="text-xs text-center font-bold p-2 text-red-700">
-				{deaths}
+				{Number(deaths).toLocaleString()}
 			</td>
 			<td className="text-xs text-center font-bold p-2 text-green-700">
-				{recovered}
+				{Number(recovered).toLocaleString()}
 			</td>
 		</tr>
 	);
